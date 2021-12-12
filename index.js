@@ -22,13 +22,14 @@ async function run() {
         const usersCollection = database.collection("users");
 
         // get api
+        // git all user
         app.get('/users', async (req, res) => {
             const cursor = usersCollection.find({});
             const users = await cursor.toArray();
             res.send(users)
         })
 
-
+        // find single user
         app.get('/users/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -38,6 +39,7 @@ async function run() {
         })
 
         // post Api
+        // insert new user
         app.post('/users', async (req, res) => {
 
             const newUser = req.body;
@@ -48,6 +50,7 @@ async function run() {
 
 
         // update api
+        // update user details
         app.put('/users/:id', async (req, res) => {
             const id = req.params.id;
             const updatedUser = req.body;
@@ -56,16 +59,17 @@ async function run() {
 
             const updateDoc = {
                 $set: {
-                 name: updatedUser.name,
-                 email:updatedUser.email
+                    name: updatedUser.name,
+                    email: updatedUser.email
                 },
-              };
-              const result = await usersCollection.updateOne(filter,updateDoc,option);
+            };
+            const result = await usersCollection.updateOne(filter, updateDoc, option);
             // console.log('updateing uper')
             res.json(result)
         })
 
         // delete api
+        // delete user
         app.delete('/users/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
